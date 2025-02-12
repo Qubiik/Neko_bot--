@@ -13,8 +13,8 @@
 from random import randint
 from telebot import types, TeleBot
 from os import listdir
-bot = TeleBot("6990833167:AAFR6aZEDl78W5wttJhT84NT1LbyzEQPwRI", parse_mode=None)
-admin = "1267002205"
+bot = TeleBot("", parse_mode=None)
+admin = ""
 def sendphoto(message):
     files = listdir('neko')
     file_numbers = [int(file.split('.')[0]) for file in files if file.split('.')[0].isdigit()]
