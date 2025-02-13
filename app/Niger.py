@@ -18,7 +18,7 @@ admin = ""
 def sendphoto(message):
     files = listdir('neko')
     file_numbers = [int(file.split('.')[0]) for file in files if file.split('.')[0].isdigit()]
-    image = open("neko/" + str(randint(0, max(file_numbers))) + ".jpg", "rb")
+    image = open("app/neko/" + str(randint(0, max(file_numbers))) + ".jpg", "rb")
     bot.send_photo(message.chat.id, image)
     image.close()
 
@@ -30,7 +30,7 @@ def all(message):
     files = listdir("neko")
     file_numbers = [int(file.split('.')[0]) for file in files if file.split('.')[0].isdigit()]
     for i in range(0, max((file_numbers))):
-        with open(f"neko/{i}.jpg", "rb") as f:
+        with open(f"app/neko/{i}.jpg", "rb") as f:
             bot.send_photo(message.chat.id, f, caption=str(i + 1))
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -44,7 +44,7 @@ def nsfw1(message):
     bot.reply_to(message, "/nekoNSFW")
 @bot.message_handler(commands=['nekoNSFW'])
 def func(message):
-    image = open("nsfw/" + str(randint(0, 37)) + ".jpg", "rb")
+    image = open("app/nsfw/" + str(randint(0, 37)) + ".jpg", "rb")
     bot.send_photo(message.chat.id, image)
     image.close()
     db[message.chat.id]['point'] += 1
@@ -56,11 +56,11 @@ def button(message):
         bot.reply_to(message, "Discord: cons_y\nTelegram: @fu4ju")
     else:
         try:
-            image = open("neko/" + str(int(message.text) - 1) + ".jpg", "rb")
+            image = open("app/neko/" + str(int(message.text) - 1) + ".jpg", "rb")
             bot.send_photo(message.chat.id, image)
             image.close()
         except:
-            files = listdir('neko')
+            files = listdir('app/neko')
             file_numbers = [int(file.split('.')[0]) for file in files if file.split('.')[0].isdigit()]
             bot.reply_to(message, f"Максимальное значение {max(file_numbers) + 1}, минимальное значение 1")
 @bot.message_handler(content_types=['photo'])
@@ -72,7 +72,7 @@ def handle_photo(message):
         file_extension = '.' + file_info.file_path.split('.')[-1]
 
         # Находим порядковый номер для нового файла
-        files = listdir('neko')
+        files = listdir('app/neko')
         file_numbers = [int(file.split('.')[0]) for file in files if file.split('.')[0].isdigit()]
         if file_numbers:
             next_file_number = max(file_numbers) + 1
@@ -81,7 +81,7 @@ def handle_photo(message):
 
         # Сохраняем файл в папку 'neko'
         downloaded_file = bot.download_file(file_info.file_path)
-        with open(f'neko/{next_file_number}{file_extension}', 'wb') as new_file:
+        with open(f'app/neko/{next_file_number}{file_extension}', 'wb') as new_file:
             new_file.write(downloaded_file)
 
         bot.reply_to(message, "Фото сохранено!")
